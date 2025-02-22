@@ -5,12 +5,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/Odd', function () {
-    return view('Odd');
+Route::get('/odd', function () {
+    return view('odd');
 });
-Route::get('/Prime', function () {
-    return view('Prime');
+Route::get('/prime', function () {
+    return view('prime');
 });
-Route::get('/Multiplication', function () {
-    return view('Multiplication');
+Route::get('/multiplication', function () {
+    return view('multiplication');
 });
