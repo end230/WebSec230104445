@@ -18,6 +18,7 @@
 </head>
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
 
+
 <nav class="navbar navbar-expand-sm bg-light">
     <div class="container-fluid">
         <ul class="navbar-nav">
@@ -32,6 +33,9 @@
             </li>
             <li class="nav-item">
             <a class="nav-link" href="./multable">Multiplication Table</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./MiniTest">Supermarket Bill</a>
             </li>
         </ul>
     </div>
