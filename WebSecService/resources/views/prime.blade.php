@@ -24,6 +24,6 @@ function isPrime($number) {
             <span class="badge bg-secondary">{{$i}}</span>
             @endif
             @endforeach
-@endsection
         </div>
     </div>
+@endsection

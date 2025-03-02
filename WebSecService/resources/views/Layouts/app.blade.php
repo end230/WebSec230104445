@@ -10,6 +10,7 @@
 
 </head>
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
+
     <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">
             <ul class="navbar-nav">
@@ -27,6 +28,18 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./MiniTest">Supermarket Bill</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="./transcript">Student Transcript</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="./products">products</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ route('users.index') }}">Users List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('users.create') }}">Add User</a>
                 </li>
             </ul>
         </div>
