@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::resource('users', UserController::class)->except(['show']);
-Route::get('/', function () {
-    return view('welcome'); //welcome.blade.php
-});
+
 Route::get('/multable', function () {
     return view('multable'); //multable.blade.php
 });
@@ -52,3 +53,4 @@ Route::get('/products', function () {
     ];
     return view('products', compact('products'));
 });
+// Route::resource('welcome', UserController::class,'welcome')->name('welcome');

@@ -25,7 +25,7 @@
                 <a class="nav-link" href="./prime">Prime Numbers</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="./multable">Multiplication Table</a>
+            <a href="{{ url('/multable') }}" class="btn btn-success">Multiplication Table</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="./MiniTest">Supermarket Bill</a>

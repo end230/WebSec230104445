@@ -8,6 +8,12 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+
+
+    public function welcome(){
+        return view('view.welcome');
+
+    }
     public function index(Request $request)
     {
         $query = User::query();
