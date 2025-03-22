@@ -24,8 +24,8 @@
                         <tr>
                             <td>{{$Post['id']}}</td>
                             <td>{{$Post['title']}}</td>
-                            <td>{{$Post['Posted_by']}}</td>
-                            <td>{{$Post['Created_at']}}</td>
+                            <td>{{$Post['description']}}</td>
+                            <td>{{$Post['created_at']}}</td>
                             <td>
                               <td><a href="{{route('posts.show',$Post['id'])}}"><button type="button" class="btn btn-info">View</button></td>
                               <td><a href="{{route('posts.edit',$Post['id'])}}"><button type="button" class="btn btn-primary">Edit</button></td>

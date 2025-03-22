@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\post;
 
 class Post_Controller extends Controller
 {
  public function index()
  {
-    $allPosts = [
-        ["id"=>1,"title"=>"PHP","Posted_by" =>"Ahmed","Created_at" => '2022-1-31 09:00:00'],
-        ["id"=>2,"title"=>"CS","Posted_by" =>"Amr","Created_at" => '2022-10-6 15:00:00'],
-        ["id"=>3,"title"=>"JS","Posted_by" =>"Mohamed","Created_at" => '2022-7-20 01:00:00'],   
-        ["id"=>4,"title"=>"PHP","Posted_by" =>"Refai","Created_at" => '2022-9-12 05:00:00'],
-    ];
-    return view("Posts.index",['Posts'=>$allPosts]);
+    $postsFromDM = post::all();
+        
+    return view("Posts.index",['Posts' => $postsFromDM]);
  }
 
  public function show($postID)
