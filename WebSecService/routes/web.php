@@ -1,56 +1,57 @@
 <?php
-
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\Web\ProductsController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('users', UserController::class)->except(['show']);
+Route::get('/', function () {
+    return view('welcome'); //welcome.blade.php
+});
+    
+Route::get('multable/{id?}', function ($id = 1) {
+    return view('multable', [
+        'number' => $id,
+    ]);
+});
 
-Route::get('/multable', function () {
-    return view('multable'); //multable.blade.php
-});
-Route::get('/even', function () {
-    return view('even'); //even.blade.php
-});
 Route::get('/prime', function () {
-    return view('prime'); //prime.blade.php
+    return view('prime');
 });
-Route::get('/MiniTest',function() {
-    return view('MiniTest'); //mini test.blade.php
+
+Route::get('/even', function () {
+    return view('even');
 });
-Route::get('/transcript', function () {
-    $transcript = [
-        ['course' => 'Web Security', 'grade' => 'A'],
-        ['course' => 'Database Systems', 'grade' => 'B+'],
-        ['course' => 'Network Security', 'grade' => 'A-'],
+
+Route::get('test/{id}', function ($id) {
+    $courses = [
+        '1' => 'englach',
+        '2' => 'oop',
+        '3' => 'ara'
     ];
-    return view('transcript', compact('transcript'));
+    return view('test', [
+        'this_id' => $courses[$id] ?? "does not exist",
+    ]);
 });
-Route::get('/products', function () {
-    $products = [
-        [
-            'name' => 'Product 1',
-            'image' => 'https://via.placeholder.com/150',
-            'price' => 19.99,
-            'description' => 'This is a description for Product 1.'
-        ],
-        [
-            'name' => 'Product 2',
-            'image' => 'https://via.placeholder.com/150',
-            'price' => 29.99,
-            'description' => 'This is a description for Product 2.'
-        ],
-        [
-            'name' => 'Product 3',
-            'image' => 'https://via.placeholder.com/150',
-            'price' => 39.99,
-            'description' => 'This is a description for Product 3.'
-        ],
-        // Add more products as needed
-    ];
-    return view('products', compact('products'));
-});
-// Route::resource('welcome', UserController::class,'welcome')->name('welcome');
+
+Route::resource('users', UserController::class);
+Route::resource('grades', GradeController::class);
+
+Route::get('products', action: [ProductsController::class, 'list'])->name('products_list');
+Route::get('products/edit/{product?}', [ProductsController::class, 'edit'])->name('products_edit');
+Route::post('products/save/{product?}', [ProductsController::class, 'save'])->name('products_save');
+Route::get('products/delete/{product}', [ProductsController::class, 'delete'])->name('products_delete');
+
+Route::get('register', [UserController::class, 'register'])->name('register');
+Route::post('register', [UserController::class, 'doRegister'])->name('doRegister');
+Route::get('login', [UserController::class, 'login'])->name('login');
+Route::post('login', [UserController::class, 'doLogin'])->name('doLogin');
+Route::get('logout', [UserController::class, 'doLogout'])->name('doLogout');
+Route::get('profile/{user?}', [UserController::class, 'profile'])->name('profile')->middleware('auth');
+Route::post('profile/update-password/{user?}', [UserController::class, 'updatePassword'])->name('updatePassword')->middleware('auth');
+Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit')->middleware('auth');
+Route::put('users/{user}', [UserController::class, 'update'])->name('users.update')->middleware('auth');
