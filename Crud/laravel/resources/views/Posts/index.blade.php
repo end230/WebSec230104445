@@ -20,17 +20,17 @@
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        @foreach ($Posts as $Post)
+                        @foreach ($Posts as $post)
                         <tr>
-                            <td>{{$Post->id}}</td>
-                            <td>{{$Post->title}}</td>
-                            <td>{{$Post->posted_by}}</td>
-                            <td>{{$Post->created_at}}</td>
+                            <td>{{$post->id}}</td>
+                            <td>{{$post->title}}</td>
+                            <td>{{$post->user->name}}</td>
+                            <td>{{$post->created_at}}</td>
                             <td>
-                              <td><a href="{{route('posts.show',$Post->id)}}"><button type="button" class="btn btn-info">View</button></td>
-                              <td><a href="{{route('posts.edit',$Post->id)}}"><button type="button" class="btn btn-primary">Edit</button></td>
+                              <td><a href="{{route('posts.show',$post->id)}}"><button type="button" class="btn btn-info">View</button></td>
+                              <td><a href="{{route('posts.edit',$post->id)}}"><button type="button" class="btn btn-primary">Edit</button></td>
 
-                              <form method="POST" action="{{route('posts.destroy',$Post->id)}}">
+                              <form method="POST" action="{{route('posts.destroy',$post->id)}}">
                                 @csrf
                                 @method('DELETE')
 

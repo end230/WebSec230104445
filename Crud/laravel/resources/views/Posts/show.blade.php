@@ -8,7 +8,7 @@
           Post Info
         </div>
         <div class="card-body">
-          <h5 class="card-title">Title {{$post->title}}</h5>
+          <h5 class="card-title">Title: {{$post->title}}</h5>
           <p class="card-text">Description:{{$post['Description']}}</p>
         </div>
         <div class="card">
@@ -16,9 +16,9 @@
               Post Creator Info
             </div>
             <div class="card-body">
-              <h5 class="card-title">Name {{$post['Posted_by']}}</h5>
-              <p class="card-text">Email: ahmed@gmail.com</p>
-              <p class="card-text">Created At:{{$post['Created_at']}}</p>
+              <h5 class="card-title">Name {{$post->user->name}}</h5>
+              <p class="card-text">Email: {{$post->user->email}}</p>
+              <p class="card-text">Created At: {{$post->created_at}}</p>
             </div>
       </div>
     
