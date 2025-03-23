@@ -5,7 +5,7 @@
 @section('title')Index @endsection
 
     <div class="text-center">
-      <a href="{{route('posts.create')}}" class="btn btn-success">Creat Post</a>
+      <a href="{{route('posts.create')}}" class="btn btn-success">Create Post</a>
     </div>
         </div>
 
