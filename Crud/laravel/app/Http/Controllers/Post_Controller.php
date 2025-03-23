@@ -51,7 +51,7 @@ public function store(){
     Post::create([
         'title' => $title,
         'description' => $describtion,
-        // 'post_Creator',
+        'user_id'=>$post_Creator,
     ]);
 
     // dd($data,$title,$describtion,$post_Creator);
@@ -68,6 +68,7 @@ public function edit(Post $post){
 
     return view('posts.edit',['users'=> $users,'post'=>$post]);
 }
+
 public function update($postId){
     
 
@@ -81,10 +82,12 @@ public function update($postId){
     $singlePostsFromDB->update([
         'title'=>$title,
         'description'=>$description,
+        'user_id'=>$post_Creator,
     ]);
 
     return to_route('posts.show',$postId);
 }
+
 public function destroy($postId){
     
     $post = Post::find($postId);
