@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Post_Controller;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Destroy;
+use App\Http\Controllers\Registration;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,3 +24,4 @@ Route::put('/posts/{post}',  [Post_Controller::class,'update'])->name('posts.upd
 
 Route::delete('/posts/{post}',[Post_Controller::class,'destroy'])->name('posts.destroy');
 
+Route::get('/login', [Registration::class,'login'])->name('registration.login');
