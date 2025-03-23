@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\post;
 
+use function PHPUnit\Framework\isNull;
+
 class Post_Controller extends Controller
 {
  public function index()
@@ -14,10 +16,13 @@ class Post_Controller extends Controller
     return view("Posts.index",['Posts' => $postsFromDM]);
  }
 
- public function show($postID)
+ public function show(Post $post)
  {
-    $singlePost = ["id"=>1,"title"=>"PHP",'Description'=>'PHP is cool language',"Posted_by" =>"Ahmed","Created_at" => '2022-1-31 09:00:00'];
-  return view('posts.show',['post'=> $singlePost] );
+
+    // $singlePostsFromDB = Post::findOrFail($postID);
+
+  return view('posts.show',['post'=> $post] );
+
 }
 
 public function create(){

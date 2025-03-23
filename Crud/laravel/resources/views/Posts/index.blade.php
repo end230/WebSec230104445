@@ -22,15 +22,15 @@
                     <tbody class="table-group-divider">
                         @foreach ($Posts as $Post)
                         <tr>
-                            <td>{{$Post['id']}}</td>
-                            <td>{{$Post['title']}}</td>
-                            <td>{{$Post['description']}}</td>
-                            <td>{{$Post['created_at']}}</td>
+                            <td>{{$Post->id}}</td>
+                            <td>{{$Post->title}}</td>
+                            <td>{{$Post->posted_by}}</td>
+                            <td>{{$Post->created_at}}</td>
                             <td>
-                              <td><a href="{{route('posts.show',$Post['id'])}}"><button type="button" class="btn btn-info">View</button></td>
-                              <td><a href="{{route('posts.edit',$Post['id'])}}"><button type="button" class="btn btn-primary">Edit</button></td>
+                              <td><a href="{{route('posts.show',$Post->id)}}"><button type="button" class="btn btn-info">View</button></td>
+                              <td><a href="{{route('posts.edit',$Post->id)}}"><button type="button" class="btn btn-primary">Edit</button></td>
 
-                              <form method="POST" action="{{route('posts.destroy',$Post['id'])}}">
+                              <form method="POST" action="{{route('posts.destroy',$Post->id)}}">
                                 @csrf
                                 @method('DELETE')
 
