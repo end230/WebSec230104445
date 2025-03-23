@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\post;
+use App\Models\User;
 
+
+use League\CommonMark\Extension\DescriptionList\Node\Description;
 use function PHPUnit\Framework\isNull;
 
 class Post_Controller extends Controller
@@ -27,7 +30,9 @@ class Post_Controller extends Controller
 
 public function create(){
 
-    return view('posts.create');
+    $users = User::all();
+
+    return view('posts.create',['users' => $users]);
 
 }
 public function store(){
@@ -42,6 +47,13 @@ public function store(){
     $describtion = request()->description;
     $post_Creator = request()->post_Creator;
 
+
+    Post::create([
+        'title' => $title,
+        'description' => $describtion,
+        // 'post_Creator',
+    ]);
+
     // dd($data,$title,$describtion,$post_Creator);
     // return $data;
 
@@ -49,21 +61,29 @@ public function store(){
 }
 
 
-public function edit(){
+public function edit(Post $post){
 
-    return view('posts.edit');
+    $users = User::all();
+
+
+    return view('posts.edit',['users'=> $users,'post'=>$post]);
 }
-public function update(){
+public function update($postId){
     
 
     $title = request()->title;
-    $describtion = request()->description;
+    $description = request()->description;
     $post_Creator = request()->post_Creator;
 
     
     // dd($title,$describtion,$post_Creator);
-   
-    return to_route('posts.show',1);
+    $singlePostsFromDB = Post::findOrFail($postId);
+    $singlePostsFromDB->update([
+        'title'=>$title,
+        'description'=>$description,
+    ]);
+
+    return to_route('posts.show',$postId);
 }
 public function destroy(){
     
