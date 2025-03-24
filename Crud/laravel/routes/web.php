@@ -24,4 +24,13 @@ Route::put('/posts/{post}',  [Post_Controller::class,'update'])->name('posts.upd
 
 Route::delete('/posts/{post}',[Post_Controller::class,'destroy'])->name('posts.destroy');
 
-Route::get('/login', [Registration::class,'login'])->name('registration.login');
+// Route::get('/login', [Registration::class,'login'])->name('registration.login');
+
+Route::get('/login',[Registration::class,'login'])->name('register.login');
+
+// Signup routes
+
+
+Route::post('/signup',[Registration::class,'signup'])->name('signup');
+
+Route::get('/signup',[Registration::class,'showsignup'])->name('register.showsignup');
