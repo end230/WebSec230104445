@@ -55,3 +55,5 @@ Route::get('profile/{user?}', [UserController::class, 'profile'])->name('profile
 Route::post('profile/update-password/{user?}', [UserController::class, 'updatePassword'])->name('updatePassword')->middleware('auth');
 Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit')->middleware('auth');
 Route::put('users/{user}', [UserController::class, 'update'])->name('users.update')->middleware('auth');
+
+// Route::get('verify', [UsersController::class, 'verify'])->name('verify');
