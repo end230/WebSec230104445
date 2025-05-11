@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local SSL Setup Guide for XAMPP (Windows 11)</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f2f3f7;
+      color: #333;
+      margin: 0;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #35495e;
+    }
+    code {
+      background-color: #eaecef;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    pre {
+      background-color: #272822;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    .step {
+      background: #fff;
+      border-left: 4px solid #4CAF50;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+    }
+    ul {
+      padding-left: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔐 Local SSL Setup for XAMPP (Windows 11)</h1>
+
+  <p>A clean, reusable guide for setting up SSL certificates for <strong>localhost domains</strong> with XAMPP on Windows 11.</p>
+
+  <div class="step">
+    <h2>📦 Prerequisites</h2>
+    <ul>
+      <li>OpenSSL for Windows: <a href="https://slproweb.com/products/Win32OpenSSL.html" target="_blank">Download Here</a></li>
+      <li>XAMPP installed and Apache running normally without SSL first</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h2>📁 Directory Structure</h2>
+    <p>Example:</p>
+    <pre>C:\xampp\htdocs\test</pre>
+    <p>Domain: <code>test.localhost.com</code></p>
+  </div>
+
+  <div class="step">
+    <h2>📌 1️⃣ Add OpenSSL to Windows PATH</h2>
+    <p>Add this to your system's Environment Variables → <strong>Path</strong>:</p>
+    <pre>C:\OpenSSL-Win64\bin</pre>
+  </div>
+
+  <div class="step">
+    <h2>📌 2️⃣ Generate Root CA</h2>
+    <pre>
+cd C:\xampp\htdocs\test\certs
+openssl genrsa -out ca.key 2048
+openssl req -x509 -new -key ca.key -days 3650 -out ca.crt -subj "/C=EG/ST=Cairo/L=Cairo/O=WebSec/OU=WebSec Service/CN=WebSec Root CA"
+    </pre>
+  </div>
+
+  <div class="step">
+    <h2>📌 3️⃣ Generate Website Key & CSR</h2>
+    <pre>
+openssl genrsa -out test.localhost.com.key 2048
+openssl req -new -key test.localhost.com.key -out test.localhost.com.csr -subj "/C=EG/ST=Cairo/L=Cairo/O=WebSec/OU=WebSec Service/CN=test.localhost.com"
+    </pre>
+  </div>
+
+  <div class="step">
+    <h2>📌 4️⃣ Create Extension File</h2>
+    <p>Create <code>test.localhost.com.ext</code> with:</p>
+    <pre>
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = test.localhost.com
+    </pre>
+  </div>
+
+  <div class="step">
+    <h2>📌 5️⃣ Generate SSL Certificate</h2>
+    <pre>
+openssl x509 -req -in test.localhost.com.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.localhost.com.crt -days 730 -extfile test.localhost.com.ext
+    </pre>
+  </div>
+
+  <div class="step">
+    <h2>📌 6️⃣ Copy Certificates to Apache</h2>
+    <ul>
+      <li>Move <code>test.localhost.com.key</code> to <code>C:\xampp\apache\conf\ssl.key\</code></li>
+      <li>Move <code>test.localhost.com.crt</code> to <code>C:\xampp\apache\conf\ssl.crt\</code></li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h2>📌 7️⃣ Configure Apache Virtual Host</h2>
+    <p>Edit <code>C:\xampp\apache\conf\extra\httpd-vhosts.conf</code> and add:</p>
+    <pre>
+&lt;VirtualHost *:443&gt;
+    ServerName test.localhost.com:443
+    DocumentRoot "C:/xampp/htdocs/test"
+    ServerAdmin admin@test.localhost.com
+
+    ErrorLog "C:/xampp/apache/logs/test-error.log"
+    TransferLog "C:/xampp/apache/logs/test-access.log"
+
+    SSLEngine on
+    SSLCertificateFile "conf/ssl.crt/test.localhost.com.crt"
+    SSLCertificateKeyFile "conf/ssl.key/test.localhost.com.key"
+&lt;/VirtualHost&gt;
+    </pre>
+  </div>
+
+  <div class="step">
+    <h2>📌 8️⃣ Enable Apache SSL Modules</h2>
+    <p>In <code>httpd.conf</code>, uncomment:</p>
+    <pre>
+LoadModule ssl_module modules/mod_ssl.so
+Include conf/extra/httpd-ssl.conf
+Include conf/extra/httpd-vhosts.conf
+    </pre>
+  </div>
+
+  <div class="step">
+    <h2>📌 9️⃣ Test Apache Config</h2>
+    <pre>"C:\xampp\apache\bin\httpd.exe" -t</pre>
+    <p>It should say <code>Syntax OK</code></p>
+  </div>
+
+  <div class="step">
+    <h2>📌 🔟 Restart Apache</h2>
+    <p>Use XAMPP Control Panel. If it fails, check for:</p>
+    <ul>
+      <li>Port 443 conflicts (<code>netstat -ano | findstr :443</code>)</li>
+      <li>Firewall blocking port 443</li>
+      <li>Certificate files properly placed and not empty</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h2>📌 🔒 11️⃣ Trust the CA Certificate</h2>
+    <p>Double-click <code>ca.crt</code> → Install to <strong>Trusted Root Certification Authorities</strong> (Local Machine)</p>
+  </div>
+
+  <div class="step">
+    <h2>✅ Done!</h2>
+    <p>Visit: <code>https://test.localhost.com</code></p>
+  </div>
+
+</body>
+</html>
